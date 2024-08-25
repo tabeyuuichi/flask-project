@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+天気情報取得アプリ
+{% endblock %}
+
+
+{% block content %}
+<h1>天気情報取得アプリ</h1>
+
+<form method="POST">
+    <label for="region">地域を選択してください:</label><br>
+    <select name="region" id="region" required onchange="this.form.submit()">
+        <option value="">選択してください</option>
+        {% for region in regions %}
+            <option value="{{ region }}" {% if request.form.get('region') == region %}selected{% endif %}>{{ region }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    {% if areas %}
+    <label for="area">エリアを選択してください:</label><br>
+    <select name="area" id="area" required onchange="this.form.submit()">
+        <option value="">選択してください</option>
+        {% for area in areas %}
+            <option value="{{ area }}" {% if request.form.get('area') == area %}selected{% endif %}>{{ area }}</option>
+        {% endfor %}
+    </select><br><br>
+    {% endif %}
+
+    {% if points and areas %}
+    <label for="point">地点を選択してください:</label><br>
+    <select name="point" id="point" required>
+        <option value="">選択してください</option>
+        {% for point in points %}
+            <option value="{{ point }}" {% if request.form.get('point') == point %}selected{% endif %}>{{ point }}</option>
+        {% endfor %}
+    </select><br><br>
+    {% endif %}
+
+    <button type="submit">天気情報を取得</button>
+</form>
+
+{% if weather_info and point_name and points and areas %}
+<h2>天気情報</h2>
+<div id="weather-info">
+    <!-- 天気情報をここに表示 -->
+    {% for area in weather_info[0]['timeSeries'][0]['areas'] %}
+        {% if area['area']['name'] == point_name %}
+            <h3>{{ area['area']['name'] }}</h3>
+            <p>天気: {{ area['weathers'][0] }}</p>
+            <p>風: {{ area['winds'][0] }}</p>
+            {% if 'waves' in area %}
+                <p>波の高さ: {{ area['waves'][0] }}</p>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

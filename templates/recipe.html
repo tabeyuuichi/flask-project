@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+料理レシピアプリ
+{% endblock %}
+
+
+{% block content %}
+<h1>料理レシピアプリ</h1>
+
+<form method="POST">
+    <label for="recipe">検索</label>
+    <input type="text" id="recipe" name="recipe" required minlength="1" maxlength="20" size="10" />
+    <br><br>
+    <button type="submit">レシピを検索</button>
+</form>
+
+{% if df_recipe is not none and not df_recipe.empty %}
+<h2>レシピ</h2>
+<div id="df_recipe">
+    <ul>
+        {% for recipe in df_recipe.itertuples() %}
+        <li>
+            <a href="{{ recipe.recipeUrl }}" target="_blank">
+                <img src="{{ recipe.foodImageUrl }}" alt="{{ recipe.recipeTitle }} 画像"class="recipe-image">
+            </a>
+            <h3>{{ recipe.recipeTitle }}</h3>
+            <p>{{ recipe.recipeDescription }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<p>レシピが見つかりませんでした。</p>
+{% endif %}
+<!-- Rakuten Web Services Attribution Snippet FROM HERE -->
+<a href="https://webservice.rakuten.co.jp/" target="_blank"><img src="https://webservice.rakuten.co.jp/img/credit/200709/credit_31130.gif" border="0" alt="Rakuten Web Service Center" title="Rakuten Web Service Center" width="311" height="30"/></a>
+<!-- Rakuten Web Services Attribution Snippet TO HERE -->
+{% endblock %}
+
