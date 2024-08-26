@@ -6,8 +6,14 @@ import os
 
 import weather
 import recipe
+import memo
 
 app = Flask(__name__)
+
+# メモページのルート
+@app.route('/')
+def memo_():
+    return memo.memo_top()
 
 # 天気ページのルート
 @app.route('/weather', methods=['GET', 'POST'])

@@ -3,7 +3,7 @@ import psycopg2
 import os
 
 # 環境変数からデータベースURLを取得
-MEMO_DATABASE_URL = os.getenv("DATABASE_URL")
+MEMO_DATABASE_URL = os.getenv("MEMO_DATABASE_URL")
 
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def close_db(error):
 
 # トップページを表示するルート
 @app.route('/')
-def top():
+def memo_top():
     cur = get_db().cursor()
     cur.execute("SELECT id, title, body FROM memo")
     memo_list = cur.fetchall()

@@ -5,12 +5,14 @@
 {% block content %}
 <h1>メモアプリ</h1>
 
+<!-- メモ追加フォーム -->
 <form action="{{ url_for('add_memo') }}" method="post">
     <p>タイトル: <input type="text" name="title"></p>
     <p>メモ: <input type="text" name="body"></p>
     <p><input type="submit" value="追加"></p>
 </form>
 
+<!-- メモ一覧表示 -->
 {% if memo_list == [] %}
     <p>メモは登録されていません</p>
 {% else %}
@@ -25,6 +27,7 @@
                 <td>{{ memo[1] }}</td>
                 <td>{{ memo[2] }}</td>
                 <td>
+                    <!-- メモ削除フォーム -->
                     <form action="{{ url_for('delete_memo', memo_id=memo[0]) }}" method="post" style="display:inline;">
                         <input type="submit" value="削除">
                     </form>
