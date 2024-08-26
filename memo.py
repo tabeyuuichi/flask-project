@@ -21,8 +21,7 @@ def init_db():
     cur.close()
     conn.close()
 
-@app.before_first_request
-def setup():
+with app.app_context():
     init_db()
 
 # データベースに接続する関数
@@ -59,7 +58,7 @@ def add_memo():
     cur.execute("INSERT INTO memo (title, body) VALUES (%s, %s)", (title, body))
     get_db().commit()
     cur.close()
-    return redirect(url_for('top'))
+    return redirect(url_for('memo_top'))
 
 # メモを削除するルート
 @app.route('/delete/<int:memo_id>', methods=['POST'])
@@ -68,7 +67,7 @@ def delete_memo(memo_id):
     cur.execute("DELETE FROM memo WHERE id = %s", (memo_id,))
     get_db().commit()
     cur.close()
-    return redirect(url_for('top'))
+    return redirect(url_for('memo_top'))
 
 # アプリケーションを実行
 if __name__ == "__main__":
