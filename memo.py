@@ -7,6 +7,24 @@ MEMO_DATABASE_URL = os.getenv("MEMO_DATABASE_URL")
 
 app = Flask(__name__)
 
+def init_db():
+    conn = psycopg2.connect(MEMO_DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS memo (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        body TEXT NOT NULL
+    );
+    """)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+@app.before_first_request
+def setup():
+    init_db()
+
 # データベースに接続する関数
 def connect_db():
     return psycopg2.connect(MEMO_DATABASE_URL)
