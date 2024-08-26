@@ -3,12 +3,12 @@ import psycopg2
 import os
 
 # 環境変数からデータベースURLを取得
-MEMO_DATABASE_URL = os.getenv("MEMO_DATABASE_URL")
+MEMO_DATABASE_PATH = os.getenv("MEMO_DATABASE_PATH")
 
 app = Flask(__name__)
 
 def init_db():
-    conn = psycopg2.connect(MEMO_DATABASE_URL)
+    conn = psycopg2.connect(MEMO_DATABASE_PATH)
     cur = conn.cursor()
     cur.execute("""
     CREATE TABLE IF NOT EXISTS memo (
@@ -26,7 +26,7 @@ with app.app_context():
 
 # データベースに接続する関数
 def connect_db():
-    return psycopg2.connect(MEMO_DATABASE_URL)
+    return psycopg2.connect(MEMO_DATABASE_PATH)
 
 # リクエストごとにデータベース接続を取得する関数
 def get_db():
