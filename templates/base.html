@@ -11,9 +11,14 @@
     <header>
         <nav>
             <ul>
-                <li><a href = "/">メモアプリ</a></li>
-                <li><a href = "weather">天気情報</a></li>
-                <li><a href = "recipe">レシピを検索</a></li>
+                <li><a href="/">メモアプリ</a></li>
+                <li><a href="/weather">天気情報</a></li>
+                <li><a href="/recipe">レシピを検索</a></li>
+                {% if session.get('logged_in') %}
+                <li><a href="/logout">ログアウト</a></li>
+                {% else %}
+                <li><a href="/login">ログイン</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
